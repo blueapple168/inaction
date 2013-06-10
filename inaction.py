@@ -67,7 +67,7 @@ class InActionHandler(pyinotify.ProcessEvent):
 
     def process_default(self, event):
         event_pathname = os.path.realpath(event.pathname)
-        rule = rules.get(event_pathname)
+        rule = self.rules.get(event_pathname)
         if rule:
             for expected_event in rule.events:
                 if event.mask & expected_event:
