@@ -18,6 +18,8 @@ class Rule(object):
     def execute(self):
         real_cmd = Template(self.command).substitute({
             'pathname': self.pathname,
+            'name': os.path.basename(self.pathname),
+            'path': os.path.dirname(self.pathname),
         })
 
         #如果命令以@开头, 则去掉@, 不输出命令.
