@@ -67,16 +67,20 @@ class InActionHandler(pyinotify.ProcessEvent):
         self.rules = rules
 
     def process_default(self, event):
+        if event.name == 'Inactionfile':
+            print 'reloading Inactionfile...'
+            self.set_rules(Rules())
+
         event_pathname = os.path.realpath(event.pathname)
         rule = self.rules.get(event_pathname)
-        if rule:
-            for expected_event in rule.events:
-                if event.mask & expected_event:
-                    rule.execute()
-                    logging.debug('Hit %s(mask %s,%s)' % (event_pathname,
-                                                         event.maskname,
-                                                         event.mask))
-                    break
+        if not rule: return
+        for expected_event in rule.events:
+            if event.mask & expected_event:
+                rule.execute()
+                logging.debug('Hit %s(mask %s,%s)' % (event_pathname,
+                                                     event.maskname,
+                                                     event.mask))
+                break
 
 if __name__ == '__main__':
     from optparse import OptionParser
@@ -111,6 +115,9 @@ if __name__ == '__main__':
                  mask,
                  rec=options.recursive,
                  auto_add=options.auto_add,)
+
+    wm.add_watch('Inactionfile',
+                 pyinotify.IN_MODIFY | pyinotify.IN_CLOSE_WRITE)
 
     handler = InActionHandler()
     handler.set_rules(rules)
