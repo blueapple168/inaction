@@ -87,8 +87,15 @@ if __name__ == '__main__':
     parser.add_option("-a", "--auto_add", action="store_true",
                       dest="auto_add",
                       help="Automatically add watches on new directories")
+    parser.add_option("-C", "--proj_dir", action="store",
+                      dest="proj_dir",
+                      help="Change to proj_dir before doing anything.")
 
     (options, args) = parser.parse_args()
+
+    if options.proj_dir:
+        print 'chdir from `%s` to `%s`' % (os.getcwd(), options.proj_dir)
+        os.chdir(options.proj_dir)
 
 
     rules = Rules()
@@ -103,4 +110,5 @@ if __name__ == '__main__':
     handler.set_rules(rules)
 
     notifier = pyinotify.Notifier(wm, handler)
+    print "Start monitoring..."
     notifier.loop()
