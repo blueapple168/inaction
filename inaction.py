@@ -105,7 +105,10 @@ if __name__ == '__main__':
     mask = reduce(lambda x, y: x | y, rules.related_events())
     wm = pyinotify.WatchManager()
 
-    wm.add_watch(args or os.getcwd(), mask,
+    real_watching_paths = [ os.path.dirname(p) if not os.path.isdir(p) else p for p in watching_files ]
+    logging.debug('real_watching_paths: %s' % real_watching_paths)
+    wm.add_watch(real_watching_paths,
+                 mask,
                  rec=options.recursive,
                  auto_add=options.auto_add,)
 
