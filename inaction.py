@@ -4,6 +4,7 @@ import pyinotify
 import os
 import re
 import logging
+from string import Template
 
 class Rule(object):
     '''A rule bind command to a pathname'''
@@ -13,7 +14,7 @@ class Rule(object):
         self.command = command
 
     def execute(self):
-        real_cmd = self.command % ({
+        real_cmd = Template(self.command).substitute({
             'pathname': self.pathname,
         })
 
@@ -102,7 +103,7 @@ if __name__ == '__main__':
     mask = reduce(lambda x, y: x | y, rules.related_events())
     wm = pyinotify.WatchManager()
 
-    wm.add_watch(args or '.', mask,
+    wm.add_watch(args or os.getcwd(), mask,
                  rec=options.recursive,
                  auto_add=options.auto_add,)
 
@@ -110,5 +111,5 @@ if __name__ == '__main__':
     handler.set_rules(rules)
 
     notifier = pyinotify.Notifier(wm, handler)
-    print "Start monitoring..."
+    print "Start monitoring on:\n", '\n'.join(rules.keys())
     notifier.loop()
