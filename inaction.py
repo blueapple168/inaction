@@ -6,6 +6,8 @@ import re
 import logging
 from string import Template
 
+class InactionfileError(Exception): pass
+
 class Rule(object):
     '''A rule bind command to a pathname'''
     def __init__(self, pathname, events, command):
@@ -42,7 +44,7 @@ class Rules(dict):
                      for flag in events.split(',') ]
 
             if None in events:
-                raise ConfigError
+                raise InactionfileError('Not recognized event type')
 
             self[pathname] = Rule(pathname, events, command)
 
