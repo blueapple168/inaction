@@ -34,7 +34,6 @@ class Rules(dict):
     '''rules parsed from Inactionfile'''
     def __init__(self, acfile='Inactionfile'):
         def parse_line(l):
-            l = re.sub('\s*#.*$', '', l)
             pathname,events,command = [ s.strip() for s in re.split('\s+', l, 2) ]
 
             pathname = os.path.realpath(pathname)
@@ -48,7 +47,8 @@ class Rules(dict):
 
         with open(acfile) as f:
             for l in f:
-                if l.startswith('#'):
+                l = re.sub('\s*#.*$', '', l).strip()
+                if not l:
                     continue
                 parse_line(l)
 
