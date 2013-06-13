@@ -41,12 +41,6 @@ Inactionfile中每个规则各占一行, 可以使用 `#` 作为注释行, 空�
 *event* 表示对应文件上预期发生的事件类型, 多个事件用 `,` 分开.
 可选的事件类型有:
 
-*command* 表示预期的事件发生时执行的命令, 可以用简单的模版语法替换出上下文变量, 其中
-
-- pathname: 完整的文件路径名
-- path: 文件所在目录
-- name: 文件名(不包含路径)
-
 - **IN_ACCESS** File was accessed
 - **IN_ATTRIB** Metadata changed (permissions, timestamps, extended attributes, etc.)
 - **IN_CLOSE_WRITE** File opened for writing was closed
@@ -60,7 +54,11 @@ Inactionfile中每个规则各占一行, 可以使用 `#` 作为注释行, 空�
 - **IN_MOVED_TO** File moved into watched directory
 - **IN_OPEN** File was opened
 
+*command* 表示当预期的事件发生时执行的命令, 可以用python内建的模版语法替换出上下文变量, 其中
 
+- pathname: 完整的文件路径名
+- path: 文件所在目录
+- name: 文件名(不包含路径)
 
 ### Start monitoring
 
