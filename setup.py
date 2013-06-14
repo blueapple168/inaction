@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='inaction',
-      version='1.0.2',
+      version='1.0.3',
       description='Run specified commands while specified files changes.',
       author='Wonder Beyond',
       author_email='wonderbeyond@gmail.com',

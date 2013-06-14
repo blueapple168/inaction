@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 import pyinotify
-import os
+import os, glob
 import re
 import logging
 from string import Template
@@ -47,9 +47,12 @@ class Rules(dict):
             if None in events:
                 raise InactionfileError('Not recognized event type')
 
+            # support multiple files in one rule
             for pathname in pathnames.split(','):
-                pathname = os.path.realpath(pathname)
-                self[pathname] = Rule(pathname, events, command)
+                for pathname in glob.glob(pathname):
+                    # support Unix style pathname pattern expansion in pathname
+                    pathname = os.path.realpath(pathname)
+                    self[pathname] = Rule(pathname, events, command)
 
         with open(acfile) as f:
             for l in f:
