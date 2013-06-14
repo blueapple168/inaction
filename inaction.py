@@ -71,7 +71,7 @@ class InActionHandler(pyinotify.ProcessEvent):
         self.rules = rules
 
     def process_default(self, event):
-        if event.name == 'Inactionfile':
+        if os.path.basename(event.pathname) == 'Inactionfile':
             print 'reloading Inactionfile...'
             self.set_rules(Rules())
 
