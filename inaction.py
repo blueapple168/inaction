@@ -39,16 +39,17 @@ class Rules(dict):
     '''rules parsed from Inactionfile'''
     def __init__(self, acfile='Inactionfile'):
         def parse_line(l):
-            pathname,events,command = [ s.strip() for s in re.split('\s+', l, 2) ]
+            pathnames,events,command = [ s.strip() for s in re.split('\s+', l, 2) ]
 
-            pathname = os.path.realpath(pathname)
             events = [ pyinotify.EventsCodes.ALL_FLAGS.get(flag.strip())
                      for flag in events.split(',') ]
 
             if None in events:
                 raise InactionfileError('Not recognized event type')
 
-            self[pathname] = Rule(pathname, events, command)
+            for pathname in pathnames.split(','):
+                pathname = os.path.realpath(pathname)
+                self[pathname] = Rule(pathname, events, command)
 
         with open(acfile) as f:
             for l in f:

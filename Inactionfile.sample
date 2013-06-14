@@ -1,3 +1,3 @@
 #<path> <mask> <command>
-static/css/style.less   IN_CLOSE_WRITE   lessc $pathname > ${path}/style.css
-TODO                    IN_MODIFY        @echo "TODO updated!" #commands prefixed with "@" does not echo
+static/css/1.less,static/css/2.less IN_CLOSE_WRITE  lessc $pathname > ${path}/style.css
+TODO    IN_MODIFY   @echo "TODO updated!" #commands prefixed with "@" does not echo
