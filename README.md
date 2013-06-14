@@ -36,7 +36,8 @@ Inactionfile中每个规则各占一行, 可以使用 `#` 作为注释行, 空�
     #<path> <event> <command>
     static/css/style.less  IN_CLOSE_WRITE   lessc $pathname > ${path}/style.css
 
-其中 *path* 是相对于项目根目录的路径(也可以是绝对路径), 代表被监测的文件;
+其中 *path* 是相对于项目根目录的路径(也可以是绝对路径), 代表被监测的文件.
+path中可以用 `,` 分隔多个路径, 每个路径可以使用Unix路径通配符.
 
 *event* 表示对应文件上预期发生的事件类型, 多个事件用 `,` 分开.
 可选的事件类型有:
